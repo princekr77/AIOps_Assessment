@@ -3,3 +3,8 @@ __pycache__
 *.pyc
 .git
 .gitignore
+.pytest_cache
+tests
+notebooks
+.github
+*.md

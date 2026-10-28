@@ -8,31 +8,62 @@ on:
 
 jobs:
   build-and-test:
+    name: Build, Test & Container Verification
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Build Docker image
-      run: docker build -t spam-api .
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
 
-    - name: Run container
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run unit tests with pytest
+      run: |
+        python -m pytest tests/ -v
+
+    - name: Build Docker image
+      run: |
+        docker build -t spam-api .
+
+    - name: Run Docker container
       run: |
         docker run -d -p 8000:8000 --name spam-api-container spam-api
-        sleep 5  # Wait for FastAPI to start
+        sleep 5  # Allow FastAPI application time to initialize
 
-    - name: Test health endpoint
-      run: curl -f http://localhost:8000/health
-
-    - name: Test prediction endpoint
+    - name: Test Root and Health endpoints
       run: |
-        curl -X POST http://localhost:8000/predict \
-          -H "Content-Type: application/json" \
-          -d '{"text": "Win a free prize now! Click here."}' \
-          -o response.json
-        cat response.json
+        curl -f -s http://localhost:8000/
+        echo ""
+        health_resp=$(curl -f -s http://localhost:8000/health)
+        echo "Health response: $health_resp"
+        echo "$health_resp" | grep -q '"status":"ok"'
 
-    - name: Stop container
+    - name: Test Prediction endpoint (Spam detection)
+      run: |
+        spam_resp=$(curl -f -s -X POST http://localhost:8000/predict \
+          -H "Content-Type: application/json" \
+          -d '{"text": "WINNER! You have won a guaranteed 1000 cash prize. Call to claim now!"}')
+        echo "Spam Prediction Response: $spam_resp"
+        echo "$spam_resp" | grep -q '"label":"spam"'
+
+    - name: Test Prediction endpoint (Ham detection)
+      run: |
+        ham_resp=$(curl -f -s -X POST http://localhost:8000/predict \
+          -H "Content-Type: application/json" \
+          -d '{"text": "Hi team, please review the project documentation before our sync tomorrow."}')
+        echo "Ham Prediction Response: $ham_resp"
+        echo "$ham_resp" | grep -q '"label":"ham"'
+
+    - name: Stop Docker container
       if: always()
-      run: docker stop spam-api-container || true
+      run: |
+        docker stop spam-api-container || true
+        docker rm spam-api-container || true
