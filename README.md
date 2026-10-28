@@ -5,22 +5,6 @@ An end-to-end Machine Learning Operations (MLOps) project demonstrating the comp
 ---
 
 
-## Architecture Overview
-
-```mermaid
-flowchart LR
-    A["Kaggle Dataset<br/>(SMS/Email Spam)"] --> B["Google Colab / Jupyter<br/>(TF-IDF + Logistic Regression)"]
-    B --> C["Serialized Artifact<br/>(model.joblib)"]
-    C --> D["FastAPI Service<br/>(app.py in VS Code)"]
-    D --> E["Unit Testing<br/>(pytest tests/test_api.py)"]
-    D --> F["Docker Container<br/>(Dockerfile)"]
-    E --> G["GitHub Actions CI<br/>(.github/workflows/ci.yml)"]
-    F --> G
-```
-
----
-
-
 ## Assessment Checklist & Verification
 
 | # | Requirement | Implementation Details | Repository Artifact |
