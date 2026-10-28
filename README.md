@@ -1,17 +1,11 @@
-# 📧 Spam Email Classification API (Production MLOps Pipeline)
-
-[![CI Pipeline](https://github.com/princekr77/AIOps_Assessment/actions/workflows/ci.yml/badge.svg)](https://github.com/princekr77/AIOps_Assessment/actions)
-![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.14-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.111%2B-009688)
-![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.4%2B-F7931E)
-![License](https://img.shields.io/badge/License-MIT-green)
+# Spam Email Classification API (Production MLOps Pipeline)
 
 An end-to-end Machine Learning Operations (MLOps) project demonstrating the complete lifecycle of a Machine Learning application: from dataset exploration and model training in Google Colab, model serialization with pipeline encapsulation, API serving with FastAPI in VS Code, containerization using Docker, to automated Continuous Integration (CI) with GitHub Actions.
 
 ---
 
-## 🏗️ Architecture Overview
+
+## Architecture Overview
 
 ```mermaid
 flowchart LR
@@ -26,43 +20,24 @@ flowchart LR
 
 ---
 
-## 📌 Assessment Checklist & Verification
 
-| # | Requirement | Implementation Details | Repository Artifact | Status |
-|---|-------------|------------------------|---------------------|:------:|
-| **1** | **Machine Learning Case Study (Kaggle Dataset)** | Spam Email / SMS detection on [Kaggle SMS Spam Collection](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset) (5,572 records). | [notebooks/spam_classifier_colab.ipynb](notebooks/spam_classifier_colab.ipynb) | ✅ **PASSED** |
-| **2** | **Train & Test on Jupyter / Colab (Not VS Code)** | Trained in Google Colab using TF-IDF vectorization and Logistic Regression with stratified 80/20 train/test split. | [notebooks/spam_classifier_colab.ipynb](notebooks/spam_classifier_colab.ipynb) | ✅ **PASSED** |
-| **3** | **Save Model & Parameters (`model.joblib`)** | Full scikit-learn `Pipeline` (TF-IDF vectorizer + LogisticRegression weights) serialized using `joblib.dump()` to eliminate train-serve skew. | [model.joblib](model.joblib) | ✅ **PASSED** |
-| **4** | **Test Model using FastAPI (VS Code)** | Built REST API in `app.py` with `/predict`, `/health`, and `/` endpoints; validated with automated test suite in `tests/test_api.py`. | [app.py](app.py), [tests/test_api.py](tests/test_api.py) | ✅ **PASSED** |
-| **5** | **Execute API Endpoints through Docker** | Multi-stage slim container built on `python:3.11-slim`, exposing port 8000 and running via `uvicorn`. | [Dockerfile](Dockerfile), [.dockerignore](.dockerignore) | ✅ **PASSED** |
-| **6** | **Create a GitHub Repository** | Version controlled repository hosted on GitHub with git tracking and remote connection. | `princekr77/AIOps_Assessment` | ✅ **PASSED** |
-| **7** | **Create GitHub Actions CI Pipeline** | Automated workflow configured in `.github/workflows/ci.yml` triggering on push and pull requests to `main`. | [.github/workflows/ci.yml](.github/workflows/ci.yml) | ✅ **PASSED** |
-| **8** | **Pipeline Executed Successfully** | CI executes unit tests with pytest, builds Docker image, runs container, and asserts prediction outputs for spam and ham. | [GitHub Actions Workflow Runs](https://github.com/princekr77/AIOps_Assessment/actions) | ✅ **PASSED** |
+## Assessment Checklist & Verification
 
----
-
-## 📁 Repository Structure
-
-```text
-├── .github/
-│   └── workflows/
-│       └── ci.yml               # GitHub Actions CI workflow (tests + Docker verification)
-├── notebooks/
-│   └── spam_classifier_colab.ipynb # Google Colab training notebook with outputs & metrics
-├── tests/
-│   └── test_api.py             # Automated pytest suite for FastAPI endpoints & model
-├── .dockerignore               # Docker build exclusions
-├── .gitignore                  # Git tracking exclusions
-├── app.py                      # FastAPI application with /predict and /health endpoints
-├── Dockerfile                  # Production container definition (python:3.11-slim)
-├── model.joblib                # Serialized scikit-learn Pipeline artifact
-├── requirements.txt            # Python dependencies (fastapi, uvicorn, scikit-learn, etc.)
-└── README.md                   # Project documentation and assessor mapping
-```
+| # | Requirement | Implementation Details | Repository Artifact |
+|---|-------------|------------------------|---------------------|
+| **1** | **Machine Learning Case Study (Kaggle Dataset)** | Spam Email / SMS detection on [Kaggle SMS Spam Collection](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset) (5,572 records). | [notebooks/spam_classifier_colab.ipynb](notebooks/spam_classifier_colab.ipynb) |
+| **2** | **Train & Test on Jupyter / Colab (Not VS Code)** | Trained in Google Colab using TF-IDF vectorization and Logistic Regression with stratified 80/20 train/test split. | [notebooks/spam_classifier_colab.ipynb](notebooks/spam_classifier_colab.ipynb) |
+| **3** | **Save Model & Parameters (`model.joblib`)** | Full scikit-learn `Pipeline` (TF-IDF vectorizer + LogisticRegression weights) serialized using `joblib.dump()` to eliminate train-serve skew. | [model.joblib](model.joblib) |
+| **4** | **Test Model using FastAPI (VS Code)** | Built REST API in `app.py` with `/predict`, `/health`, and `/` endpoints; validated with automated test suite in `tests/test_api.py`. | [app.py](app.py), [tests/test_api.py](tests/test_api.py) |
+| **5** | **Execute API Endpoints through Docker** | Multi-stage slim container built on `python:3.11-slim`, exposing port 8000 and running via `uvicorn`. | [Dockerfile](Dockerfile), [.dockerignore](.dockerignore) |
+| **6** | **Create a GitHub Repository** | Version controlled repository hosted on GitHub with git tracking and remote connection. | `princekr77/AIOps_Assessment` |
+| **7** | **Create GitHub Actions CI Pipeline** | Automated workflow configured in `.github/workflows/ci.yml` triggering on push and pull requests to `main`. | [.github/workflows/ci.yml](.github/workflows/ci.yml) |
+| **8** | **Pipeline Executed Successfully** | CI executes unit tests with pytest, builds Docker image, runs container, and asserts prediction outputs for spam and ham. | [GitHub Actions Workflow Runs](https://github.com/princekr77/AIOps_Assessment/actions) |
 
 ---
 
-## 🚀 Quickstart Guide
+
+## Quickstart Guide
 
 ### 1. Local Setup & Testing (VS Code)
 
@@ -160,7 +135,8 @@ docker stop spam-api-container && docker rm spam-api-container
 
 ---
 
-## 🔄 Continuous Integration (CI) Workflow
+
+## Continuous Integration (CI) Workflow
 
 The GitHub Actions pipeline (`.github/workflows/ci.yml`) runs on every push and pull request to the `main` branch:
 
@@ -177,7 +153,8 @@ The GitHub Actions pipeline (`.github/workflows/ci.yml`) runs on every push and 
 
 ---
 
-## 📊 Model Training & Evaluation Summary
+
+## Model Training & Evaluation Summary
 
 - **Algorithm**: Logistic Regression with L2 Regularization
 - **Feature Extraction**: TF-IDF Vectorizer (10,000 max features, unigrams & bigrams, English stop words removed)
