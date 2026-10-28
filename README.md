@@ -1,4 +1,4 @@
-# 📧 Spam Email Classification API (MLOps Pipeline)
+# Spam Email Classification API (MLOps Pipeline)
 
 This repository contains an end-to-end Machine Learning pipeline for **Spam Email Classification**, taking the project from model training to a deployed API with Continuous Integration (CI). 
 
@@ -6,7 +6,7 @@ This project was built to fulfill the assessment requirements: training a model,
 
 ---
 
-## 📌 Assessment Checklist Mapping
+## Assessment Checklist Mapping
 
 Here is how this repository fulfills the 8 required steps:
 
