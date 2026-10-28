@@ -1,0 +1,38 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t spam-api .
+
+    - name: Run container
+      run: |
+        docker run -d -p 8000:8000 --name spam-api-container spam-api
+        sleep 5  # Wait for FastAPI to start
+
+    - name: Test health endpoint
+      run: curl -f http://localhost:8000/health
+
+    - name: Test prediction endpoint
+      run: |
+        curl -X POST http://localhost:8000/predict \
+          -H "Content-Type: application/json" \
+          -d '{"text": "Win a free prize now! Click here."}' \
+          -o response.json
+        cat response.json
+
+    - name: Stop container
+      if: always()
+      run: docker stop spam-api-container || true
